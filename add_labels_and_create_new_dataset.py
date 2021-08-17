@@ -1,6 +1,7 @@
 import numpy as np
 from read_data import *
 import os
+import pandas as pd
 
 
 def headingg(heading):
@@ -19,12 +20,14 @@ def add_label(start_heading,
               Xend,
               Ystart,
               Yend):
-    start_heading = headingg(start_frame)
-    end_heading = headingg(endframe)
+    # start_heading = headingg(start_heading)
+    # end_heading = headingg(end_heading)
 
     angle_to_goal = np.diff(np.unwrap([start_heading, end_heading]))[0]
-
-    if -np.pi / 8 < angle_to_goal < np.pi / 8:
+    first = np.pi / 8
+    second = np.pi / 3
+    third = np.pi * 3 / 4
+    if -first < angle_to_goal < first:
         a = 'straight-on'
         if Xstart == Xend and Ystart == Yend:
             a = 'still'
@@ -34,14 +37,16 @@ def add_label(start_heading,
             a = 'slower'
         else:
             a = 'constant-speed'
-    elif np.pi / 8 <= angle_to_goal < np.pi / 3:
+    elif first <= angle_to_goal < second:
         a = 'easy-turn-right'
-    elif np.pi / 3 <= angle_to_goal < np.pi * 3 / 4:
+    elif second <= angle_to_goal:
         a = 'turn-right'
-    elif -np.pi / 8 >= angle_to_goal > -np.pi / 3:
+        print(a)
+    elif -first >= angle_to_goal > -second:
         a = 'easy-turn-left'
-    elif -np.pi / 3 >= angle_to_goal > np.pi * -3 / 4:
+    elif - second >= angle_to_goal:
         a = 'turn-left'
+        print(a)
 
     return a
 
@@ -58,14 +63,15 @@ def preprocing_label(track):
             startLONVELOCITY=track[LONVELOCITY][i],
             endLONVELOCITY=track[LONVELOCITY][i + 1],
             starLONACCELERATION=track[LONACCELERATION][i + 1],
-            endLONACCELERATION=track[LONACCELERATION][i + 1]
+            endLONACCELERATION=track[LONACCELERATION][i + 1],
             Xstart=track[X][i],
             Xend=track[X][i + 1],
             Ystart=track[Y][i],
-            Yend==track[y][i + 1]
-
-        )
-        d = {'label': label, FRAME: track[FRAME][i], CLASS:track[CLASS][0], TRACK_ID: track[TRACK_ID][i}
+            Yend=track[Y][i + 1],)
+        d = {'label': label,
+             FRAME: track[FRAME][i],
+             CLASS:track[CLASS],
+             TRACK_ID: track[TRACK_ID]}
         labels.append(d)
     return labels
 
@@ -74,21 +80,40 @@ def distance_all(df): # растояние между всеми точками 
     from scipy.spatial.distance import cdist
     distance_matrix = cdist(df.values[:, 0:2], df.values[:, 0:2], 'euclidean')
 
+def create_dataset(name_dataset):
+    print(name_dataset)
+    if name_dataset == "inD-dataset-v1.0":
+        count_csv = 32
+    else:
+        count_csv = 23
+    l = []
+    for number in range(count_csv):
+        print(number)
+        num_csv = f"0{number}" if len(str(number)) != 2 else str(number)
+        track_csv_path = f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_tracks.csv"
+        track_meta_csv_path = f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_tracksMeta.csv"
+        tracks_csv = read_tracks_csv(track_csv_path, track_meta_csv_path)
+        tracks_meta = read_csv(track_meta_csv_path)
+        recording_meta = read_csv(
+            f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_recordingMeta.csv")
+        for j,i in enumerate(tracks_csv):
+            labels = preprocing_label(tracks_csv[i])
+            l.extend(labels)
+        df = pd.DataFrame(l)
+        df.to_csv(f"output/{name_dataset}_" + num_csv + "_dataset.csv")
+        break
+
 def run():
     if not os.path.exists("output"):
         os.makedirs("output")
     total_change = 0
-    for number in range(1):
-        num_csv = f"0{number}" if len(str(number)) != 2 else str(number)
-        track_csv_path = "../lololol/data/datasets/rounD-dataset-v1.0/data/" + num_csv + "_tracks.csv"
-        track_meta_csv_path = "../lololol/data/datasets/rounD-dataset-v1.0/data/" + num_csv + "_tracksMeta.csv"
-        tracks_csv = read_tracks_csv(track_csv_path, track_meta_csv_path)
-        tracks_meta = read_csv(track_meta_csv_path)
-        recording_meta = read_csv(
-            "../lololol/data/datasets/rounD-dataset-v1.0/data/" + num_csv + "_recordingMeta.csv")
-        l = []
-        for i in tracks_csv:
-            labels = preprocing_label(tracks_csv[i])
+    names_dataset = ("rounD-dataset-v1.0", "inD-dataset-v1.0")
+    for i in names_dataset:
+        create_dataset(i)
+        break
+
+
+
 
 
 
