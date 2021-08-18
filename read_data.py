@@ -122,6 +122,7 @@ def read2_tracks_csv(track_csv_path, tracks_meta, track_meta_recording):
             LONACCELERATION: rows[LONACCELERATION].values,
             LATACCELERATION: rows[LATACCELERATION].values,
 
+
         }
         current_track = current_track + 1
     return tracks
