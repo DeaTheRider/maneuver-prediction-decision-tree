@@ -52,10 +52,11 @@ def read_csv(track_csv_path):
     df = pandas.read_csv(track_csv_path)
     return df
 
-def read_tracks_csv(track_csv_path, tracks_meta):
+def read_tracks_csv(track_csv_path, tracks_meta, track_meta_recording):
     df = read_csv(track_csv_path)
     tracks_meta_info = read_csv(tracks_meta)
-
+    track_meta_recording_info = read_csv(track_meta_recording)
+    frame_rate = track_meta_recording_info[FRAME_RATE].iloc[0]
     grouped = df.groupby([TRACK_ID], sort=False)
     tracks = {}
     current_track = 0
@@ -82,9 +83,44 @@ def read_tracks_csv(track_csv_path, tracks_meta):
             LONACCELERATION: rows[LONACCELERATION].values,
             LATACCELERATION: rows[LATACCELERATION].values,
             CLASS: class_,
+            FRAME_RATE: frame_rate,
 
 
 
+        }
+        current_track = current_track + 1
+    return tracks
+
+
+def read2_tracks_csv(track_csv_path, tracks_meta, track_meta_recording):
+    df = read_csv(track_csv_path)
+    tracks_meta_info = read_csv(tracks_meta)
+    track_meta_recording_info = read_csv(track_meta_recording)
+    frame_rate = track_meta_recording_info[FRAME_RATE].iloc[0]
+    grouped = df.groupby([FRAME], sort=False)
+    tracks = {}
+    current_track = 0
+    for group_id, rows in grouped:
+        bounding_boxes = np.transpose(np.array([rows[X].values,
+                                                rows[Y].values,
+                                                rows[WIDTH].values,
+                                                rows[LENGHT].values]))
+        tracks[np.int64(group_id)] = {
+            TRACK_ID: rows[TRACK_ID].values,
+            FRAME: rows[FRAME].values,
+            X: rows[X].values,
+            Y: rows[Y].values,
+            BBOX: bounding_boxes,
+            X_VELOCITY: rows[X_VELOCITY].values,
+            Y_VELOCITY: rows[Y_VELOCITY].values,
+            X_ACCELERATION: rows[X_ACCELERATION].values,
+            Y_ACCELERATION: rows[Y_ACCELERATION].values,
+            TRACKLIFETIME: rows[TRACKLIFETIME].values,
+            HEADING: rows[HEADING].values,
+            LONVELOCITY: rows[LONVELOCITY].values,
+            LATVELOCITY: rows[LATVELOCITY].values,
+            LONACCELERATION: rows[LONACCELERATION].values,
+            LATACCELERATION: rows[LATACCELERATION].values,
 
         }
         current_track = current_track + 1

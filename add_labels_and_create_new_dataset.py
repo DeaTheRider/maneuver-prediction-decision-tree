@@ -20,13 +20,17 @@ def add_label(start_heading,
               Xend,
               Ystart,
               Yend):
-    # start_heading = headingg(start_heading)
-    # end_heading = headingg(end_heading)
+    start_heading = headingg(start_heading)
+    end_heading = headingg(end_heading)
 
     angle_to_goal = np.diff(np.unwrap([start_heading, end_heading]))[0]
-    first = np.pi / 8
-    second = np.pi / 3
-    third = np.pi * 3 / 4
+    # first = np.pi / 8
+    # second = np.pi / 3
+    # third = np.pi * 3 / 4
+    #np.pi/8
+    third = np.pi / 3
+    second = np.pi / 6
+    first = np.pi / 12
     if -first < angle_to_goal < first:
         a = 'straight-on'
         if Xstart == Xend and Ystart == Yend:
@@ -39,35 +43,57 @@ def add_label(start_heading,
             a = 'constant-speed'
     elif first <= angle_to_goal < second:
         a = 'easy-turn-right'
+
     elif second <= angle_to_goal:
         a = 'turn-right'
-        print(a)
     elif -first >= angle_to_goal > -second:
         a = 'easy-turn-left'
+
     elif - second >= angle_to_goal:
         a = 'turn-left'
-        print(a)
 
     return a
 
 def preprocing_label(track):
     count_frames = len(track[HEADING])
     labels = []
-    for i, j in enumerate(track[HEADING]):
-        if i == count_frames - 1:
-            labels.append(labels[-1])
+    frame_rate = int(track[FRAME_RATE])
+    for i in range(0, len(track[HEADING]), int(frame_rate)):
+
+        if len(track[HEADING]) <= frame_rate:
+            label = add_label(
+                start_heading=track[HEADING][i],
+                end_heading=track[HEADING][-1],
+                startLONVELOCITY=track[LONVELOCITY][i],
+                endLONVELOCITY=track[LONVELOCITY][-1],
+                starLONACCELERATION=track[LONACCELERATION][-1],
+                endLONACCELERATION=track[LONACCELERATION][-1],
+                Xstart=track[X][i],
+                Xend=track[X][-1],
+                Ystart=track[Y][i],
+                Yend=track[Y][-1],)
+            d = {'label': label,
+                 FRAME: track[FRAME][i],
+                 CLASS:track[CLASS],
+                 TRACK_ID: track[TRACK_ID]}
+            labels.append(d)
+
+            continue
+
+        if i + frame_rate >= len(track[HEADING]):
+            # labels.append(labels[-1])
             continue
         label = add_label(
             start_heading=track[HEADING][i],
-            end_heading=track[HEADING][i + 1],
+            end_heading=track[HEADING][i + frame_rate],
             startLONVELOCITY=track[LONVELOCITY][i],
-            endLONVELOCITY=track[LONVELOCITY][i + 1],
-            starLONACCELERATION=track[LONACCELERATION][i + 1],
-            endLONACCELERATION=track[LONACCELERATION][i + 1],
+            endLONVELOCITY=track[LONVELOCITY][i + frame_rate],
+            starLONACCELERATION=track[LONACCELERATION][i + frame_rate],
+            endLONACCELERATION=track[LONACCELERATION][i + frame_rate],
             Xstart=track[X][i],
-            Xend=track[X][i + 1],
+            Xend=track[X][i + frame_rate],
             Ystart=track[Y][i],
-            Yend=track[Y][i + 1],)
+            Yend=track[Y][i + frame_rate],)
         d = {'label': label,
              FRAME: track[FRAME][i],
              CLASS:track[CLASS],
@@ -83,16 +109,17 @@ def distance_all(df): # растояние между всеми точками 
 def create_dataset(name_dataset):
     print(name_dataset)
     if name_dataset == "inD-dataset-v1.0":
-        count_csv = 32
+        count_csv = 33
     else:
-        count_csv = 23
-    l = []
+        count_csv = 24
     for number in range(count_csv):
         print(number)
+        l = []
         num_csv = f"0{number}" if len(str(number)) != 2 else str(number)
         track_csv_path = f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_tracks.csv"
         track_meta_csv_path = f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_tracksMeta.csv"
-        tracks_csv = read_tracks_csv(track_csv_path, track_meta_csv_path)
+        track_meta_recording = f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_recordingMeta.csv"
+        tracks_csv = read_tracks_csv(track_csv_path, track_meta_csv_path, track_meta_recording)
         tracks_meta = read_csv(track_meta_csv_path)
         recording_meta = read_csv(
             f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_recordingMeta.csv")
@@ -101,16 +128,17 @@ def create_dataset(name_dataset):
             l.extend(labels)
         df = pd.DataFrame(l)
         df.to_csv(f"output/{name_dataset}_" + num_csv + "_dataset.csv")
-        break
 
 def run():
     if not os.path.exists("output"):
         os.makedirs("output")
     total_change = 0
-    names_dataset = ("rounD-dataset-v1.0", "inD-dataset-v1.0")
+    #"rounD-dataset-v1.0",
+    names_dataset = ['inD-dataset-v1.0', "rounD-dataset-v1.0"]
+    print(type(names_dataset))
     for i in names_dataset:
+        print(i)
         create_dataset(i)
-        break
 
 
 
