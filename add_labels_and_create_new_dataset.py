@@ -124,6 +124,7 @@ def create_dataset(name_dataset):
         recording_meta = read_csv(
             f"../lololol/data/datasets/{name_dataset}/data/" + num_csv + "_recordingMeta.csv")
         for j,i in enumerate(tracks_csv):
+            print(i)
             labels = preprocing_label(tracks_csv[i])
             l.extend(labels)
         df = pd.DataFrame(l)
@@ -135,6 +136,7 @@ def run():
     total_change = 0
     #"rounD-dataset-v1.0",
     names_dataset = ['inD-dataset-v1.0', "rounD-dataset-v1.0"]
+
     print(type(names_dataset))
     for i in names_dataset:
         print(i)

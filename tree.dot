@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
+edge [fontname=helvetica] ;
+0 [label="lonVelocity <= 0.0\nentropy = 1.945\nsamples = 5194\nvalue = [1090, 2286, 646, 1076, 96]\nclass = slower", fillcolor="#d9f7c5"] ;
+1 [label="lonVelocity <= -0.0\nentropy = 0.472\nsamples = 1169\nvalue = [14, 75, 2, 1076, 2]\nclass = still", fillcolor="#4d4ae7"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="xVelocity <= -5.905\nentropy = 0.906\nsamples = 88\nvalue = [13, 71, 2, 0, 2]\nclass = slower", fillcolor="#99eb66"] ;
+1 -> 2 ;
+3 [label="entropy = 1.0\nsamples = 4\nvalue = [0, 0, 2, 0, 2]\nclass = easy-turn-right", fillcolor="#ffffff"] ;
+2 -> 3 ;
+4 [label="entropy = 0.622\nsamples = 84\nvalue = [13, 71, 0, 0, 0]\nclass = slower", fillcolor="#93ea5d"] ;
+2 -> 4 ;
+5 [label="3_yAcceleration <= -0.001\nentropy = 0.046\nsamples = 1081\nvalue = [1, 4, 0, 1076, 0]\nclass = still", fillcolor="#3d3ae5"] ;
+1 -> 5 ;
+6 [label="entropy = 0.722\nsamples = 5\nvalue = [1, 4, 0, 0, 0]\nclass = slower", fillcolor="#9cec6a"] ;
+5 -> 6 ;
+7 [label="entropy = 0.0\nsamples = 1076\nvalue = [0, 0, 0, 1076, 0]\nclass = still", fillcolor="#3c39e5"] ;
+5 -> 7 ;
+8 [label="latAcceleration <= -1.226\nentropy = 1.533\nsamples = 4025\nvalue = [1076, 2211, 644, 0, 94]\nclass = slower", fillcolor="#ccf5b3"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label="latAcceleration <= -1.7\nentropy = 1.232\nsamples = 997\nvalue = [85, 278, 634, 0, 0]\nclass = easy-turn-right", fillcolor="#9df2e2"] ;
+8 -> 9 ;
+10 [label="entropy = 0.726\nsamples = 566\nvalue = [11, 81, 474, 0, 0]\nclass = easy-turn-right", fillcolor="#5fead0"] ;
+9 -> 10 ;
+11 [label="entropy = 1.483\nsamples = 431\nvalue = [74, 197, 160, 0, 0]\nclass = slower", fillcolor="#edfbe4"] ;
+9 -> 11 ;
+12 [label="lonAcceleration <= 0.021\nentropy = 1.123\nsamples = 3028\nvalue = [991, 1933, 10, 0, 94]\nclass = slower", fillcolor="#c2f3a3"] ;
+8 -> 12 ;
+13 [label="entropy = 1.005\nsamples = 1111\nvalue = [820, 250, 6, 0, 35]\nclass = faster", fillcolor="#eeac7c"] ;
+12 -> 13 ;
+14 [label="entropy = 0.649\nsamples = 1917\nvalue = [171, 1683, 4, 0, 59]\nclass = slower", fillcolor="#8de854"] ;
+12 -> 14 ;
+}

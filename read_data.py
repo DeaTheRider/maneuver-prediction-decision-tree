@@ -105,6 +105,8 @@ def read2_tracks_csv(track_csv_path, tracks_meta, track_meta_recording):
                                                 rows[Y].values,
                                                 rows[WIDTH].values,
                                                 rows[LENGHT].values]))
+        # print(group_id)
+        # print(rows[TRACK_ID].values)
         tracks[np.int64(group_id)] = {
             TRACK_ID: rows[TRACK_ID].values,
             FRAME: rows[FRAME].values,
