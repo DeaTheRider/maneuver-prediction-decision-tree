@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.6.26"/>
+		<Timestamp>2021-08-22T13:35:17Z</Timestamp>
+	</Header>
+	<MiningBuildTask>
+		<Extension name="repr">PMMLPipeline(steps=[('classifier', DecisionTreeClassifier(criterion='entropy', max_depth=3, random_state=42))])</Extension>
+	</MiningBuildTask>
+	<DataDictionary>
+		<DataField name="y" optype="categorical" dataType="integer">
+			<Value value="0"/>
+			<Value value="1"/>
+			<Value value="2"/>
+		</DataField>
+		<DataField name="latVelocity" optype="continuous" dataType="float"/>
+		<DataField name="lonAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="latAcceleration" optype="continuous" dataType="float"/>
+	</DataDictionary>
+	<TreeModel functionName="classification" algorithmName="sklearn.tree._classes.DecisionTreeClassifier" missingValueStrategy="nullPrediction">
+		<MiningSchema>
+			<MiningField name="y" usageType="target"/>
+			<MiningField name="latAcceleration"/>
+			<MiningField name="lonAcceleration"/>
+			<MiningField name="latVelocity"/>
+		</MiningSchema>
+		<Output>
+			<OutputField name="probability(0)" optype="continuous" dataType="double" feature="probability" value="0"/>
+			<OutputField name="probability(1)" optype="continuous" dataType="double" feature="probability" value="1"/>
+			<OutputField name="probability(2)" optype="continuous" dataType="double" feature="probability" value="2"/>
+		</Output>
+		<LocalTransformations>
+			<DerivedField name="double(latAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="latAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(lonAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="lonAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(latVelocity)" optype="continuous" dataType="double">
+				<FieldRef field="latVelocity"/>
+			</DerivedField>
+		</LocalTransformations>
+		<Node>
+			<True/>
+			<Node>
+				<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.5153000354766846"/>
+				<Node>
+					<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="0.19624999910593033"/>
+					<Node score="2" recordCount="45">
+						<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="0.22899999469518661"/>
+						<ScoreDistribution value="0" recordCount="1"/>
+						<ScoreDistribution value="1" recordCount="3"/>
+						<ScoreDistribution value="2" recordCount="41"/>
+					</Node>
+					<Node score="0" recordCount="6">
+						<True/>
+						<ScoreDistribution value="0" recordCount="4"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="2"/>
+					</Node>
+				</Node>
+				<Node score="2" recordCount="41">
+					<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.7908499836921692"/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="19"/>
+					<ScoreDistribution value="2" recordCount="22"/>
+				</Node>
+				<Node score="1" recordCount="9">
+					<True/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="9"/>
+					<ScoreDistribution value="2" recordCount="0"/>
+				</Node>
+			</Node>
+			<Node>
+				<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="0.017750000581145287"/>
+				<Node score="0" recordCount="53">
+					<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-0.4263499975204468"/>
+					<ScoreDistribution value="0" recordCount="51"/>
+					<ScoreDistribution value="1" recordCount="2"/>
+					<ScoreDistribution value="2" recordCount="0"/>
+				</Node>
+				<Node score="0" recordCount="45">
+					<True/>
+					<ScoreDistribution value="0" recordCount="30"/>
+					<ScoreDistribution value="1" recordCount="15"/>
+					<ScoreDistribution value="2" recordCount="0"/>
+				</Node>
+			</Node>
+			<Node score="1" recordCount="26">
+				<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="0.19509999454021454"/>
+				<ScoreDistribution value="0" recordCount="7"/>
+				<ScoreDistribution value="1" recordCount="19"/>
+				<ScoreDistribution value="2" recordCount="0"/>
+			</Node>
+			<Node score="1" recordCount="144">
+				<True/>
+				<ScoreDistribution value="0" recordCount="3"/>
+				<ScoreDistribution value="1" recordCount="141"/>
+				<ScoreDistribution value="2" recordCount="0"/>
+			</Node>
+		</Node>
+	</TreeModel>
+</PMML>
