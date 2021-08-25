@@ -1,5 +1,5 @@
-INITIAL_DATASET_FOLDER = 'datasets/'
-CONCATENATED_DATASET_FOLDER = 'prepared_dataset/'
+INITIAL_DATASET_FOLDER = 'datasets'
+PREPARED_DATASET_FOLDER = 'prepared_dataset'
 
 DATASETS = {
     'rounD': {
