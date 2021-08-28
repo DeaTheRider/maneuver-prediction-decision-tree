@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy.spatial.distance import cdist
 from pathlib import Path
+from multiprocessing import Process
 
 import settings
 
@@ -52,13 +53,26 @@ def run_once(dataset, file_num):
 
     Path(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
     df.to_csv(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/{num_csv}.csv', index=False)
+    print(f'Finished {dataset["dataset_name"]} {file_num}')
 
 
 def run_all():
     for name, dataset in settings.DATASETS.items():
         for file_num in range(dataset['csv_count']):
             run_once(dataset, file_num)
-    print('Done')
+    print('All Done')
+
+
+def run_all_multiprocessing():
+    all_processes = []
+    for name, dataset in settings.DATASETS.items():
+        for file_num in range(dataset['csv_count']):
+            p = Process(target=run_once, args=(dataset, file_num))
+            p.start()
+            all_processes.append(p)
+    for p in all_processes:
+        p.join()
+    print('All Done')
 
 
 run_all()
