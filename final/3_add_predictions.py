@@ -3,30 +3,7 @@ from pathlib import Path
 from multiprocessing import Process
 
 import settings
-
-
-def get_prediction(row):
-    FIRST_DEGREE_TURN = 15
-    SECOND_DEGREE_TURN = 30
-    heading_change = (row['end_heading']-row['heading'] + 180) % 360 - 180
-
-    if heading_change >= SECOND_DEGREE_TURN:
-        return 'turn-right'
-    elif -heading_change >= SECOND_DEGREE_TURN:
-        return 'turn-left'
-    elif FIRST_DEGREE_TURN <= heading_change < SECOND_DEGREE_TURN:
-        return 'easy-turn-right'
-    elif FIRST_DEGREE_TURN <= -heading_change < SECOND_DEGREE_TURN:
-        return 'easy-turn-left'
-    else:
-        if row['lonVelocity'] < 0.2 and row['end_lonVelocity'] < 0.2:
-            return 'still'
-        elif (2*row['end_lonVelocity']/(row['lonVelocity']+row['end_lonVelocity'])) > 1.1:
-            return 'faster'
-        elif (2*row['end_lonVelocity']/(row['lonVelocity']+row['end_lonVelocity'])) < 0.9:
-            return 'slower'
-        else:
-            return 'constant-speed'
+from prepare_tracks_with_predictions import get_prediction
 
 
 def run_once(dataset, filepath):
