@@ -44,12 +44,10 @@ def run_once(dataset, file_num):
                                                          fill_value=group.iloc[-1][column])
         group['prediction'] = group.apply(get_prediction, axis=1)
         group = group.drop(columns=[f'end_{item}' for item in temp_columns])
-        all_datasets.append(group[['recordingId', 'frame', 'trackId', 'prediction']])
+        all_datasets.append(group[['frame', 'trackId', 'prediction']])
     prediction_df = pd.concat(all_datasets, axis=0, ignore_index=True)
-    df = pd.merge(df, prediction_df, on=('recordingId', 'frame', 'trackId'))
-    df = df[['prediction']]
-    Path(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/data/").mkdir(parents=True, exist_ok=True)
-    df.to_csv(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks_predictions.csv", index=False)
+    Path(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/predictions/").mkdir(parents=True, exist_ok=True)
+    prediction_df.to_csv(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks_predictions.csv", index=False)
     print(f'Finished {dataset["dataset_name"]} {file_num}')
 
 
