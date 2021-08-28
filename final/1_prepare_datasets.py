@@ -49,6 +49,5 @@ for name, dataset in settings.DATASETS.items():
         neighbours_df = pd.DataFrame(neighbours_data)
         df = pd.merge(df, neighbours_df, on=('frame', 'trackId'))
 
-        path = Path(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/')
-        path.mkdir(parents=True, exist_ok=True)
+        Path(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
         df.to_csv(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/{num_csv}.csv', index=False)

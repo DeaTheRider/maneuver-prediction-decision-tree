@@ -138,5 +138,7 @@ dmypy.json
 .pyre/
 /.idea/other.xml
 /datasets/
-/final/prepared_dataset/
+/final/1_prepared_dataset/
 /datasets/
+/final/3_labeled_dataset/
+/final/2_by_class_dataset/
