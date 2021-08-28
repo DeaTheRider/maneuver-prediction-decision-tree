@@ -34,7 +34,7 @@ def run_once(dataset, filepath):
     class_name = filepath.name[:-4]
     print(f'Starting {dataset["dataset_name"]} {class_name}')
     if Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/{class_name}.csv').is_file():
-        print('Skipping')
+        print(f'Skipping {dataset["dataset_name"]} {class_name}')
         return
     df = pd.read_csv(filepath)
     all_datasets = []

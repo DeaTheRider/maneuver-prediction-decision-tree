@@ -11,7 +11,7 @@ def run_once(dataset, file_num):
     print(f'Starting {dataset["dataset_name"]} {file_num}')
     num_csv = f"0{file_num}"[-2:]
     if Path(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/{num_csv}.csv').is_file():
-        print('Skipping')
+        print(f'Skipping {dataset["dataset_name"]} {file_num}')
         return
     tracks = pd.read_csv(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks.csv")
     tracks = tracks[[

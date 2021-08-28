@@ -17,6 +17,9 @@ SEARCH_PARAMS = {
 def run_once(dataset, filepath):
     class_name = filepath.name[:-4]
     print(f'Starting {dataset["dataset_name"]} {class_name}')
+    if Path(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/parameters.json').is_file():
+        print(f'Skipping {dataset["dataset_name"]} {class_name}')
+        return
     df = pd.read_csv(filepath)
     df = df.drop(columns=['recordingId', 'frame', 'trackId', 'class'])
     print(df['prediction'].value_counts())
