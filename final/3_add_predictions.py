@@ -10,20 +10,20 @@ SECOND_DEGREE_TURN = 30
 def get_prediction(row):
     heading_change = (row['end_heading']-row['heading'] + 180) % 360 - 180
 
-    if heading_change >= FIRST_DEGREE_TURN:
+    if heading_change >= SECOND_DEGREE_TURN:
         return 'turn-right'
-    elif heading_change <= -SECOND_DEGREE_TURN:
+    elif -heading_change >= SECOND_DEGREE_TURN:
         return 'turn-left'
     elif FIRST_DEGREE_TURN <= heading_change < SECOND_DEGREE_TURN:
         return 'easy-turn-right'
-    elif -FIRST_DEGREE_TURN >= heading_change > -SECOND_DEGREE_TURN:
+    elif FIRST_DEGREE_TURN <= -heading_change < SECOND_DEGREE_TURN:
         return 'easy-turn-left'
     else:
-        if row['xCenter'] == row['end_xCenter'] and row['yCenter'] == row['end_xCenter']:
+        if row['lonVelocity'] < 0.2 and row['end_lonVelocity'] < 0.2:
             return 'still'
-        elif row['lonVelocity'] < row['end_lonVelocity']:
+        elif (2*row['end_lonVelocity']/(row['lonVelocity']+row['end_lonVelocity'])) > 1.1:
             return 'faster'
-        elif row['lonVelocity'] > row['end_lonVelocity']:
+        elif (2*row['end_lonVelocity']/(row['lonVelocity']+row['end_lonVelocity'])) < 0.9:
             return 'slower'
         else:
             return 'constant-speed'

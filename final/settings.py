@@ -2,6 +2,8 @@ INITIAL_DATASET_FOLDER = '../datasets'
 PREPARED_DATASET_FOLDER = '1_prepared_dataset'
 BY_CLASS_DATASET_FOLDER = '2_by_class_dataset'
 LABELED_DATASET_FOLDER = '3_labeled_dataset'
+BEST_PARAMETERS_FOLDER = '4_best_parameters'
+
 PREDICTION_FORWARD_FRAMES = 25
 
 DATASETS = {
