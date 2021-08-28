@@ -70,4 +70,4 @@ def run_all_multiprocessing():
     print('All Done')
 
 
-run_all()
+run_all_multiprocessing()
