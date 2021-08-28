@@ -14,7 +14,6 @@ for name, dataset in settings.DATASETS.items():
 
     df = pd.concat(all_datasets, axis=0, ignore_index=True)
     for class_id, class_group in df.groupby('class'):
-        class_group = class_group.drop(columns=['class'])
         print(f'Writing {dataset["dataset_name"]} {class_id}')
         Path(f'{settings.BY_CLASS_DATASET_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
         class_group.to_csv(f'{settings.BY_CLASS_DATASET_FOLDER}/{dataset["dataset_name"]}/{class_id}.csv', index=False)
