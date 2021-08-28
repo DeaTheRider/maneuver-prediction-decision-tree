@@ -11,6 +11,7 @@ for name, dataset in settings.DATASETS.items():
         print(f'Starting {dataset["dataset_name"]} {file_num}')
         num_csv = f"0{file_num}"[-2:]
         if Path(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/{num_csv}.csv').is_file():
+            print('Skipping')
             continue
         tracks = pd.read_csv(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks.csv")
         tracks = tracks[[

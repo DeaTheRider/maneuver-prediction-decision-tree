@@ -34,6 +34,9 @@ for name, dataset in settings.DATASETS.items():
     for filepath in Path(rf'{settings.BY_CLASS_DATASET_FOLDER}/{dataset["dataset_name"]}/').glob('*.csv'):
         class_name = filepath.name[:-4]
         print(f'Starting {class_name}')
+        if Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/{class_name}.csv').is_file():
+            print('Skipping')
+            continue
         df = pd.read_csv(filepath)
         all_datasets = []
         for (track_id, recording_id), group in df.groupby(['trackId', 'recordingId']):
