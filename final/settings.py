@@ -1,4 +1,4 @@
-INITIAL_DATASET_FOLDER = 'datasets'
+INITIAL_DATASET_FOLDER = '../datasets'
 PREPARED_DATASET_FOLDER = 'prepared_dataset'
 
 DATASETS = {
