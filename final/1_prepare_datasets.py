@@ -10,7 +10,7 @@ for name, dataset in settings.DATASETS.items():
     for file_num in range(dataset['csv_count']):
         print(f'Starting {dataset["dataset_name"]} {file_num}')
         num_csv = f"0{file_num}"[-2:]
-        if Path(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks.csv").is_file():
+        if Path(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/{num_csv}.csv').is_file():
             continue
         tracks = pd.read_csv(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks.csv")
         tracks = tracks[[
@@ -19,8 +19,8 @@ for name, dataset in settings.DATASETS.items():
             'xAcceleration', 'yAcceleration', 'lonVelocity', 'latVelocity', 'lonAcceleration', 'latAcceleration'
         ]]
         tracks_meta = pd.read_csv(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracksMeta.csv")
-        tracks_meta = tracks_meta[['recordingId' ,'trackId','class']]
-        df = pd.merge(tracks,tracks_meta, on=('recordingId', 'trackId'))
+        tracks_meta = tracks_meta[['recordingId', 'trackId', 'class']]
+        df = pd.merge(tracks, tracks_meta, on=('recordingId', 'trackId'))
 
         neighbours_columns = ['distance', 'yVelocity', 'xVelocity', 'yAcceleration', 'xAcceleration', 'xCenter', 'yCenter']
         neighbours_data = []
@@ -34,7 +34,7 @@ for name, dataset in settings.DATASETS.items():
                     'trackId': frame.iloc[row_index]['trackId']
                 }
                 # excluding self, take 3 closest
-                for i in range(1,4):
+                for i in range(1, 4):
                     if i < len(distances):
                         index = sorted_indexes[i]
                         for column in neighbours_columns:
