@@ -46,3 +46,4 @@ for name, dataset in settings.DATASETS.items():
         df = pd.concat(all_datasets, axis=0, ignore_index=True)
         Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
         df.to_csv(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/{class_name}.csv', index=False)
+print('Done')

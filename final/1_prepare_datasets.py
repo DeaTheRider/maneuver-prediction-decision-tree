@@ -51,3 +51,4 @@ for name, dataset in settings.DATASETS.items():
 
         Path(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
         df.to_csv(f'{settings.PREPARED_DATASET_FOLDER}/{dataset["dataset_name"]}/{num_csv}.csv', index=False)
+print('Done')
