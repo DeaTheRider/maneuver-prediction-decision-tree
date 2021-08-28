@@ -1,4 +1,5 @@
 INITIAL_DATASET_FOLDER = '../datasets'
+TRACKS_PREDICTION_FOLDER = '0_tracks_prediction'
 PREPARED_DATASET_FOLDER = '1_prepared_dataset'
 BY_CLASS_DATASET_FOLDER = '2_by_class_dataset'
 LABELED_DATASET_FOLDER = '3_labeled_dataset'

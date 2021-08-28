@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+from scipy.spatial.distance import cdist
 from pathlib import Path
 from multiprocessing import Process
 
@@ -29,13 +31,13 @@ def get_prediction(row):
             return 'constant-speed'
 
 
-def run_once(dataset, filepath):
-    class_name = filepath.name[:-4]
-    print(f'Starting {dataset["dataset_name"]} {class_name}')
-    if Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/{class_name}.csv').is_file():
-        print(f'Skipping {dataset["dataset_name"]} {class_name}')
+def run_once(dataset, file_num):
+    print(f'Starting {dataset["dataset_name"]} {file_num}')
+    num_csv = f"0{file_num}"[-2:]
+    if Path(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks_predictions.csv").is_file():
+        print(f'Skipping {dataset["dataset_name"]} {file_num}')
         return
-    df = pd.read_csv(filepath)
+    df = pd.read_csv(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks.csv")
     all_datasets = []
     for (track_id, recording_id), group in df.groupby(['trackId', 'recordingId']):
         temp_columns = ['heading', 'xCenter', 'yCenter', 'lonVelocity']
@@ -46,23 +48,24 @@ def run_once(dataset, filepath):
         group = group.drop(columns=[f'end_{item}' for item in temp_columns])
         all_datasets.append(group)
     df = pd.concat(all_datasets, axis=0, ignore_index=True)
-    Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
-    df.to_csv(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/{class_name}.csv', index=False)
-    print(f'Finished {dataset["dataset_name"]} {class_name}')
+
+    Path(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/data/").mkdir(parents=True, exist_ok=True)
+    df.to_csv(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks_predictions.csv", index=False)
+    print(f'Finished {dataset["dataset_name"]} {file_num}')
 
 
 def run_all():
     for name, dataset in settings.DATASETS.items():
-        for filepath in Path(rf'{settings.BY_CLASS_DATASET_FOLDER}/{dataset["dataset_name"]}/').glob('*.csv'):
-            run_once(dataset, filepath)
+        for file_num in range(dataset['csv_count']):
+            run_once(dataset, file_num)
     print('All Done')
 
 
 def run_all_multiprocessing():
     all_processes = []
     for name, dataset in settings.DATASETS.items():
-        for filepath in Path(rf'{settings.BY_CLASS_DATASET_FOLDER}/{dataset["dataset_name"]}/').glob('*.csv'):
-            p = Process(target=run_once, args=(dataset, filepath))
+        for file_num in range(dataset['csv_count']):
+            p = Process(target=run_once, args=(dataset, file_num))
             p.start()
             all_processes.append(p)
     for p in all_processes:
