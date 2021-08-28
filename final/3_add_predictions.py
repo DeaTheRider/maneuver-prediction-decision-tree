@@ -32,7 +32,7 @@ def get_prediction(row):
 for name, dataset in settings.DATASETS.items():
     print(f'Starting {dataset["dataset_name"]}')
     for filepath in Path(rf'{settings.BY_CLASS_DATASET_FOLDER}/{dataset["dataset_name"]}/').glob('*.csv'):
-        class_name = filepath.name.rstrip('.csv')
+        class_name = filepath.name[:-4]
         print(f'Starting {class_name}')
         df = pd.read_csv(filepath)
         all_datasets = []
