@@ -56,7 +56,7 @@ def run_once(dataset, file_num):
 
 def run_all():
     for name, dataset in settings.DATASETS.items():
-        for file_num in reversed(range(dataset['csv_count'])):
+        for file_num in range(dataset['csv_count']):
             run_once(dataset, file_num)
     print('Done')
 
