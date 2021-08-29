@@ -27,9 +27,11 @@ def run_once(dataset, filepath):
     df = pd.read_csv(filepath)
     df = df.drop(columns=['recordingId', 'frame', 'trackId', 'class', 'trackLifetime'])
     print(df['prediction'].value_counts())
+    with open(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/value_counts.txt', 'w') as f:
+        f.write(str(df['prediction'].value_counts()))
     x = df.drop('prediction', axis=1)
     y = df['prediction']
-    y, prediction_names = pd.factorize(y)
+    y, prediction_names = pd.factorize(y, sort=True)
     with open(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/prediction_names.json', 'w') as f:
         json.dump({i: item for i, item in enumerate(prediction_names)}, f)
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, stratify=y, random_state=42)
