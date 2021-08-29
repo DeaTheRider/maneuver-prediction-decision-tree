@@ -17,7 +17,7 @@ SEARCH_PARAMS = {
 def run_once(dataset, filepath):
     class_name = filepath.name[:-4]
     print(f'Starting {dataset["dataset_name"]} {class_name}')
-    if Path(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/parameters.json').is_file():
+    if Path(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}.json').is_file():
         print(f'Skipping {dataset["dataset_name"]} {class_name}')
         return
     df = pd.read_csv(filepath)
@@ -26,19 +26,17 @@ def run_once(dataset, filepath):
     x = df.drop('prediction', axis=1)
     y = df['prediction']
     y, prediction_names = pd.factorize(y)
-    Path(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/').mkdir(parents=True, exist_ok=True)
-    with open(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/prediction_names.json', 'w') as f:
-        json.dump({i: item for i, item in enumerate(list(prediction_names))}, f)
     decision_tree = DecisionTreeClassifier()
     clf = GridSearchCV(decision_tree, param_grid=SEARCH_PARAMS, cv=4, verbose=1, n_jobs=-1)
     clf.fit(x, y)
-    with open(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/parameters.json', 'w') as f:
+    with open(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}.json', 'w') as f:
         json.dump(clf.best_params_, f)
     print(f'Finished {dataset["dataset_name"]} {class_name}')
 
 
 def run_all():
     for name, dataset in settings.DATASETS.items():
+        Path(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
         for filepath in Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset["dataset_name"]}/').glob('*.csv'):
             run_once(dataset, filepath)
 
