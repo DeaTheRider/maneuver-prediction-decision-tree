@@ -29,10 +29,9 @@ def run_once(dataset, filepath):
     Path(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/').mkdir(parents=True, exist_ok=True)
     with open(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/prediction_names.json', 'w') as f:
         json.dump({i: item for i, item in enumerate(list(prediction_names))}, f)
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, stratify=y, random_state=42)
     decision_tree = DecisionTreeClassifier()
     clf = GridSearchCV(decision_tree, param_grid=SEARCH_PARAMS, cv=4, verbose=1, n_jobs=-1)
-    clf.fit(x_train, y_train)
+    clf.fit(x, y)
     with open(f'{settings.BEST_PARAMETERS_FOLDER}/{dataset["dataset_name"]}/{class_name}/parameters.json', 'w') as f:
         json.dump(clf.best_params_, f)
     print(f'Finished {dataset["dataset_name"]} {class_name}')
