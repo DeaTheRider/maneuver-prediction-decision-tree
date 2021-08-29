@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.6.26"/>
-		<Timestamp>2021-08-25T20:09:59Z</Timestamp>
+		<Application name="JPMML-SkLearn" version="1.6.27"/>
+		<Timestamp>2021-08-29T13:53:57Z</Timestamp>
 	</Header>
 	<MiningBuildTask>
-		<Extension name="repr">PMMLPipeline(steps=[('classifier', DecisionTreeClassifier(criterion='entropy', max_depth=5, min_samples_split=9,
+		<Extension name="repr">PMMLPipeline(steps=[('classifier', DecisionTreeClassifier(criterion='entropy', max_depth=7, min_samples_split=3,
                        random_state=42))])</Extension>
 	</MiningBuildTask>
 	<DataDictionary>
-		<DataField name="label" optype="categorical" dataType="integer">
+		<DataField name="y" optype="categorical" dataType="integer">
 			<Value value="0"/>
 			<Value value="1"/>
 			<Value value="2"/>
@@ -21,24 +21,68 @@
 		</DataField>
 		<DataField name="xCenter" optype="continuous" dataType="float"/>
 		<DataField name="yCenter" optype="continuous" dataType="float"/>
+		<DataField name="heading" optype="continuous" dataType="float"/>
+		<DataField name="width" optype="continuous" dataType="float"/>
 		<DataField name="length" optype="continuous" dataType="float"/>
+		<DataField name="xVelocity" optype="continuous" dataType="float"/>
+		<DataField name="yVelocity" optype="continuous" dataType="float"/>
+		<DataField name="xAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="yAcceleration" optype="continuous" dataType="float"/>
 		<DataField name="lonVelocity" optype="continuous" dataType="float"/>
 		<DataField name="latVelocity" optype="continuous" dataType="float"/>
 		<DataField name="lonAcceleration" optype="continuous" dataType="float"/>
 		<DataField name="latAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="1_distance" optype="continuous" dataType="float"/>
+		<DataField name="1_yVelocity" optype="continuous" dataType="float"/>
+		<DataField name="1_yAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="1_xAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="1_xCenter" optype="continuous" dataType="float"/>
 		<DataField name="1_yCenter" optype="continuous" dataType="float"/>
+		<DataField name="2_distance" optype="continuous" dataType="float"/>
+		<DataField name="2_xVelocity" optype="continuous" dataType="float"/>
+		<DataField name="2_yAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="2_xAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="2_xCenter" optype="continuous" dataType="float"/>
+		<DataField name="2_yCenter" optype="continuous" dataType="float"/>
+		<DataField name="3_distance" optype="continuous" dataType="float"/>
+		<DataField name="3_xVelocity" optype="continuous" dataType="float"/>
+		<DataField name="3_yAcceleration" optype="continuous" dataType="float"/>
+		<DataField name="3_xCenter" optype="continuous" dataType="float"/>
+		<DataField name="3_yCenter" optype="continuous" dataType="float"/>
 	</DataDictionary>
 	<TreeModel functionName="classification" algorithmName="sklearn.tree._classes.DecisionTreeClassifier" missingValueStrategy="nullPrediction">
 		<MiningSchema>
-			<MiningField name="label" usageType="target"/>
-			<MiningField name="length"/>
-			<MiningField name="latVelocity"/>
-			<MiningField name="yCenter"/>
+			<MiningField name="y" usageType="target"/>
 			<MiningField name="latAcceleration"/>
-			<MiningField name="lonAcceleration"/>
+			<MiningField name="latVelocity"/>
+			<MiningField name="heading"/>
+			<MiningField name="yVelocity"/>
+			<MiningField name="2_xCenter"/>
+			<MiningField name="1_xAcceleration"/>
 			<MiningField name="lonVelocity"/>
 			<MiningField name="xCenter"/>
+			<MiningField name="yCenter"/>
 			<MiningField name="1_yCenter"/>
+			<MiningField name="2_yAcceleration"/>
+			<MiningField name="yAcceleration"/>
+			<MiningField name="2_xAcceleration"/>
+			<MiningField name="3_yCenter"/>
+			<MiningField name="1_xCenter"/>
+			<MiningField name="3_distance"/>
+			<MiningField name="2_yCenter"/>
+			<MiningField name="width"/>
+			<MiningField name="lonAcceleration"/>
+			<MiningField name="xVelocity"/>
+			<MiningField name="3_xVelocity"/>
+			<MiningField name="xAcceleration"/>
+			<MiningField name="2_xVelocity"/>
+			<MiningField name="1_distance"/>
+			<MiningField name="1_yAcceleration"/>
+			<MiningField name="length"/>
+			<MiningField name="3_yAcceleration"/>
+			<MiningField name="2_distance"/>
+			<MiningField name="1_yVelocity"/>
+			<MiningField name="3_xCenter"/>
 		</MiningSchema>
 		<Output>
 			<OutputField name="probability(0)" optype="continuous" dataType="double" feature="probability" value="0"/>
@@ -51,20 +95,23 @@
 			<OutputField name="probability(7)" optype="continuous" dataType="double" feature="probability" value="7"/>
 		</Output>
 		<LocalTransformations>
-			<DerivedField name="double(length)" optype="continuous" dataType="double">
-				<FieldRef field="length"/>
+			<DerivedField name="double(latAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="latAcceleration"/>
 			</DerivedField>
 			<DerivedField name="double(latVelocity)" optype="continuous" dataType="double">
 				<FieldRef field="latVelocity"/>
 			</DerivedField>
-			<DerivedField name="double(yCenter)" optype="continuous" dataType="double">
-				<FieldRef field="yCenter"/>
+			<DerivedField name="double(heading)" optype="continuous" dataType="double">
+				<FieldRef field="heading"/>
 			</DerivedField>
-			<DerivedField name="double(latAcceleration)" optype="continuous" dataType="double">
-				<FieldRef field="latAcceleration"/>
+			<DerivedField name="double(yVelocity)" optype="continuous" dataType="double">
+				<FieldRef field="yVelocity"/>
 			</DerivedField>
-			<DerivedField name="double(lonAcceleration)" optype="continuous" dataType="double">
-				<FieldRef field="lonAcceleration"/>
+			<DerivedField name="double(2_xCenter)" optype="continuous" dataType="double">
+				<FieldRef field="2_xCenter"/>
+			</DerivedField>
+			<DerivedField name="double(1_xAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="1_xAcceleration"/>
 			</DerivedField>
 			<DerivedField name="double(lonVelocity)" optype="continuous" dataType="double">
 				<FieldRef field="lonVelocity"/>
@@ -72,117 +119,855 @@
 			<DerivedField name="double(xCenter)" optype="continuous" dataType="double">
 				<FieldRef field="xCenter"/>
 			</DerivedField>
+			<DerivedField name="double(yCenter)" optype="continuous" dataType="double">
+				<FieldRef field="yCenter"/>
+			</DerivedField>
 			<DerivedField name="double(1_yCenter)" optype="continuous" dataType="double">
 				<FieldRef field="1_yCenter"/>
+			</DerivedField>
+			<DerivedField name="double(2_yAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="2_yAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(yAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="yAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(2_xAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="2_xAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(3_yCenter)" optype="continuous" dataType="double">
+				<FieldRef field="3_yCenter"/>
+			</DerivedField>
+			<DerivedField name="double(1_xCenter)" optype="continuous" dataType="double">
+				<FieldRef field="1_xCenter"/>
+			</DerivedField>
+			<DerivedField name="double(3_distance)" optype="continuous" dataType="double">
+				<FieldRef field="3_distance"/>
+			</DerivedField>
+			<DerivedField name="double(2_yCenter)" optype="continuous" dataType="double">
+				<FieldRef field="2_yCenter"/>
+			</DerivedField>
+			<DerivedField name="double(width)" optype="continuous" dataType="double">
+				<FieldRef field="width"/>
+			</DerivedField>
+			<DerivedField name="double(lonAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="lonAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(xVelocity)" optype="continuous" dataType="double">
+				<FieldRef field="xVelocity"/>
+			</DerivedField>
+			<DerivedField name="double(3_xVelocity)" optype="continuous" dataType="double">
+				<FieldRef field="3_xVelocity"/>
+			</DerivedField>
+			<DerivedField name="double(xAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="xAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(2_xVelocity)" optype="continuous" dataType="double">
+				<FieldRef field="2_xVelocity"/>
+			</DerivedField>
+			<DerivedField name="double(1_distance)" optype="continuous" dataType="double">
+				<FieldRef field="1_distance"/>
+			</DerivedField>
+			<DerivedField name="double(1_yAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="1_yAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(length)" optype="continuous" dataType="double">
+				<FieldRef field="length"/>
+			</DerivedField>
+			<DerivedField name="double(3_yAcceleration)" optype="continuous" dataType="double">
+				<FieldRef field="3_yAcceleration"/>
+			</DerivedField>
+			<DerivedField name="double(2_distance)" optype="continuous" dataType="double">
+				<FieldRef field="2_distance"/>
+			</DerivedField>
+			<DerivedField name="double(1_yVelocity)" optype="continuous" dataType="double">
+				<FieldRef field="1_yVelocity"/>
+			</DerivedField>
+			<DerivedField name="double(3_xCenter)" optype="continuous" dataType="double">
+				<FieldRef field="3_xCenter"/>
 			</DerivedField>
 		</LocalTransformations>
 		<Node>
 			<True/>
 			<Node>
-				<SimplePredicate field="double(length)" operator="lessOrEqual" value="5.91320013999939"/>
-				<Node score="6" recordCount="38">
-					<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="-0.3213999941945076"/>
-					<ScoreDistribution value="0" recordCount="0"/>
-					<ScoreDistribution value="1" recordCount="0"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="0"/>
-					<ScoreDistribution value="4" recordCount="0"/>
-					<ScoreDistribution value="5" recordCount="0"/>
-					<ScoreDistribution value="6" recordCount="38"/>
-					<ScoreDistribution value="7" recordCount="0"/>
-				</Node>
-				<Node score="7" recordCount="37">
-					<SimplePredicate field="double(yCenter)" operator="lessOrEqual" value="-93.08974838256836"/>
-					<ScoreDistribution value="0" recordCount="0"/>
-					<ScoreDistribution value="1" recordCount="0"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="0"/>
-					<ScoreDistribution value="4" recordCount="0"/>
-					<ScoreDistribution value="5" recordCount="0"/>
-					<ScoreDistribution value="6" recordCount="0"/>
-					<ScoreDistribution value="7" recordCount="37"/>
-				</Node>
+				<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.3220999985933304"/>
 				<Node>
-					<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="0.47700001299381256"/>
-					<Node score="4" recordCount="1">
-						<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-0.1640500035136938"/>
+					<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.9142999947071075"/>
+					<Node>
+						<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="-0.19619999825954437"/>
+						<Node>
+							<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.19159996509552"/>
+							<Node>
+								<SimplePredicate field="double(heading)" operator="lessOrEqual" value="264.47804260253906"/>
+								<Node>
+									<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="8.457299709320068"/>
+									<Node score="0" recordCount="2048">
+										<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="6.142100095748901"/>
+										<ScoreDistribution value="0" recordCount="2043"/>
+										<ScoreDistribution value="1" recordCount="5"/>
+										<ScoreDistribution value="2" recordCount="0"/>
+										<ScoreDistribution value="3" recordCount="0"/>
+										<ScoreDistribution value="4" recordCount="0"/>
+										<ScoreDistribution value="5" recordCount="0"/>
+										<ScoreDistribution value="6" recordCount="0"/>
+										<ScoreDistribution value="7" recordCount="0"/>
+									</Node>
+									<Node score="0" recordCount="251">
+										<True/>
+										<ScoreDistribution value="0" recordCount="239"/>
+										<ScoreDistribution value="1" recordCount="12"/>
+										<ScoreDistribution value="2" recordCount="0"/>
+										<ScoreDistribution value="3" recordCount="0"/>
+										<ScoreDistribution value="4" recordCount="0"/>
+										<ScoreDistribution value="5" recordCount="0"/>
+										<ScoreDistribution value="6" recordCount="0"/>
+										<ScoreDistribution value="7" recordCount="0"/>
+									</Node>
+								</Node>
+								<Node score="2" recordCount="4">
+									<SimplePredicate field="double(2_xCenter)" operator="lessOrEqual" value="89.91194915771484"/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="0"/>
+									<ScoreDistribution value="2" recordCount="4"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+								<Node score="1" recordCount="4">
+									<True/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="4"/>
+									<ScoreDistribution value="2" recordCount="0"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+							</Node>
+							<Node>
+								<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.5400500297546387"/>
+								<Node score="0" recordCount="33">
+									<SimplePredicate field="double(1_xAcceleration)" operator="lessOrEqual" value="1.2723999619483948"/>
+									<ScoreDistribution value="0" recordCount="33"/>
+									<ScoreDistribution value="1" recordCount="0"/>
+									<ScoreDistribution value="2" recordCount="0"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+								<Node score="1" recordCount="1">
+									<True/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="1"/>
+									<ScoreDistribution value="2" recordCount="0"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="19">
+								<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="6.553149938583374"/>
+								<ScoreDistribution value="0" recordCount="16"/>
+								<ScoreDistribution value="1" recordCount="3"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+							<Node score="1" recordCount="29">
+								<True/>
+								<ScoreDistribution value="0" recordCount="1"/>
+								<ScoreDistribution value="1" recordCount="28"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node>
+							<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="6.1364500522613525"/>
+							<Node>
+								<SimplePredicate field="double(xCenter)" operator="lessOrEqual" value="67.44790267944336"/>
+								<Node score="0" recordCount="25">
+									<SimplePredicate field="double(heading)" operator="lessOrEqual" value="265.7366485595703"/>
+									<ScoreDistribution value="0" recordCount="15"/>
+									<ScoreDistribution value="1" recordCount="10"/>
+									<ScoreDistribution value="2" recordCount="0"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+								<Node score="1" recordCount="48">
+									<True/>
+									<ScoreDistribution value="0" recordCount="0"/>
+									<ScoreDistribution value="1" recordCount="46"/>
+									<ScoreDistribution value="2" recordCount="2"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="339">
+								<SimplePredicate field="double(yCenter)" operator="lessOrEqual" value="-45.56584930419922"/>
+								<ScoreDistribution value="0" recordCount="332"/>
+								<ScoreDistribution value="1" recordCount="7"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+							<Node score="0" recordCount="188">
+								<True/>
+								<ScoreDistribution value="0" recordCount="155"/>
+								<ScoreDistribution value="1" recordCount="33"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="46">
+							<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="7.737649917602539"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="46"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="5">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="5"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node>
+						<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.8082500100135803"/>
+						<Node score="0" recordCount="71">
+							<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="7.878050088882446"/>
+							<ScoreDistribution value="0" recordCount="71"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="1" recordCount="2">
+							<SimplePredicate field="double(1_yCenter)" operator="lessOrEqual" value="-39.680301666259766"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="2"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="0" recordCount="4">
+							<True/>
+							<ScoreDistribution value="0" recordCount="4"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node>
+						<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="-0.07330000028014183"/>
+						<Node>
+							<SimplePredicate field="double(heading)" operator="lessOrEqual" value="84.64094924926758"/>
+							<Node score="0" recordCount="23">
+								<SimplePredicate field="double(2_yAcceleration)" operator="lessOrEqual" value="1.2768000364303589"/>
+								<ScoreDistribution value="0" recordCount="23"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+							<Node score="1" recordCount="4">
+								<True/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="4"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="0" recordCount="19">
+							<SimplePredicate field="double(yAcceleration)" operator="lessOrEqual" value="-0.8315000236034393"/>
+							<ScoreDistribution value="0" recordCount="14"/>
+							<ScoreDistribution value="1" recordCount="5"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="1" recordCount="116">
+							<True/>
+							<ScoreDistribution value="0" recordCount="11"/>
+							<ScoreDistribution value="1" recordCount="100"/>
+							<ScoreDistribution value="2" recordCount="5"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node>
+						<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.2874000072479248"/>
+						<Node score="1" recordCount="19">
+							<SimplePredicate field="double(2_xAcceleration)" operator="lessOrEqual" value="0.8571500182151794"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="18"/>
+							<ScoreDistribution value="2" recordCount="1"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="0" recordCount="14">
+							<True/>
+							<ScoreDistribution value="0" recordCount="14"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="1" recordCount="15">
+						<SimplePredicate field="double(3_yCenter)" operator="lessOrEqual" value="-65.65884780883789"/>
 						<ScoreDistribution value="0" recordCount="0"/>
-						<ScoreDistribution value="1" recordCount="0"/>
-						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="12"/>
+						<ScoreDistribution value="2" recordCount="3"/>
 						<ScoreDistribution value="3" recordCount="0"/>
-						<ScoreDistribution value="4" recordCount="1"/>
+						<ScoreDistribution value="4" recordCount="0"/>
 						<ScoreDistribution value="5" recordCount="0"/>
 						<ScoreDistribution value="6" recordCount="0"/>
 						<ScoreDistribution value="7" recordCount="0"/>
 					</Node>
-					<Node score="5" recordCount="17">
+					<Node score="2" recordCount="41">
 						<True/>
-						<ScoreDistribution value="0" recordCount="0"/>
-						<ScoreDistribution value="1" recordCount="0"/>
-						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="0" recordCount="2"/>
+						<ScoreDistribution value="1" recordCount="2"/>
+						<ScoreDistribution value="2" recordCount="37"/>
 						<ScoreDistribution value="3" recordCount="0"/>
 						<ScoreDistribution value="4" recordCount="0"/>
-						<ScoreDistribution value="5" recordCount="17"/>
+						<ScoreDistribution value="5" recordCount="0"/>
 						<ScoreDistribution value="6" recordCount="0"/>
 						<ScoreDistribution value="7" recordCount="0"/>
 					</Node>
 				</Node>
-				<Node score="4" recordCount="12">
-					<True/>
+				<Node>
+					<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="-0.192050002515316"/>
+					<Node>
+						<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="4.723299980163574"/>
+						<Node>
+							<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.4896499961614609"/>
+							<Node>
+								<SimplePredicate field="double(1_xAcceleration)" operator="lessOrEqual" value="0.29789999127388"/>
+								<Node score="0" recordCount="39">
+									<SimplePredicate field="double(1_xCenter)" operator="lessOrEqual" value="52.7273006439209"/>
+									<ScoreDistribution value="0" recordCount="39"/>
+									<ScoreDistribution value="1" recordCount="0"/>
+									<ScoreDistribution value="2" recordCount="0"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+								<Node score="1" recordCount="150">
+									<True/>
+									<ScoreDistribution value="0" recordCount="71"/>
+									<ScoreDistribution value="1" recordCount="79"/>
+									<ScoreDistribution value="2" recordCount="0"/>
+									<ScoreDistribution value="3" recordCount="0"/>
+									<ScoreDistribution value="4" recordCount="0"/>
+									<ScoreDistribution value="5" recordCount="0"/>
+									<ScoreDistribution value="6" recordCount="0"/>
+									<ScoreDistribution value="7" recordCount="0"/>
+								</Node>
+							</Node>
+							<Node score="0" recordCount="96">
+								<True/>
+								<ScoreDistribution value="0" recordCount="96"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="60">
+							<SimplePredicate field="double(heading)" operator="lessOrEqual" value="272.40699768066406"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="60"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="2">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="2"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node>
+						<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.692249983549118"/>
+						<Node>
+							<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="6.848599910736084"/>
+							<Node score="1" recordCount="46">
+								<SimplePredicate field="double(3_distance)" operator="lessOrEqual" value="22.128328323364258"/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="44"/>
+								<ScoreDistribution value="2" recordCount="2"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+							<Node score="1" recordCount="154">
+								<True/>
+								<ScoreDistribution value="0" recordCount="50"/>
+								<ScoreDistribution value="1" recordCount="104"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="1" recordCount="2">
+							<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.8684500157833099"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="2"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="7">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="7"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node>
+						<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="6.825299978256226"/>
+						<Node score="1" recordCount="92">
+							<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="3.888949990272522"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="85"/>
+							<ScoreDistribution value="2" recordCount="7"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="27">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="7"/>
+							<ScoreDistribution value="2" recordCount="20"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="2" recordCount="17">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="17"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node>
+					<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="-5.862900018692017"/>
+					<Node score="2" recordCount="150">
+						<SimplePredicate field="double(2_yCenter)" operator="lessOrEqual" value="-28.32264995574951"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="150"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="1" recordCount="3">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="3"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node>
+					<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="5.552700042724609"/>
+					<Node>
+						<SimplePredicate field="double(width)" operator="lessOrEqual" value="3.5605000257492065"/>
+						<Node score="1" recordCount="112">
+							<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.46639999747276306"/>
+							<ScoreDistribution value="0" recordCount="3"/>
+							<ScoreDistribution value="1" recordCount="94"/>
+							<ScoreDistribution value="2" recordCount="15"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="83">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="30"/>
+							<ScoreDistribution value="2" recordCount="53"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="6" recordCount="9">
+						<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-1.0133000016212463"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="2"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="7"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="1" recordCount="238">
+						<True/>
+						<ScoreDistribution value="0" recordCount="3"/>
+						<ScoreDistribution value="1" recordCount="229"/>
+						<ScoreDistribution value="2" recordCount="6"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node>
+					<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.6935000121593475"/>
+					<Node score="2" recordCount="25">
+						<SimplePredicate field="double(xVelocity)" operator="lessOrEqual" value="-0.30229999125003815"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="3"/>
+						<ScoreDistribution value="2" recordCount="22"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="1" recordCount="35">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="32"/>
+						<ScoreDistribution value="2" recordCount="3"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node score="2" recordCount="120">
+					<SimplePredicate field="double(1_xCenter)" operator="lessOrEqual" value="111.39554977416992"/>
 					<ScoreDistribution value="0" recordCount="0"/>
 					<ScoreDistribution value="1" recordCount="0"/>
-					<ScoreDistribution value="2" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="120"/>
 					<ScoreDistribution value="3" recordCount="0"/>
-					<ScoreDistribution value="4" recordCount="12"/>
+					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="5" recordCount="0"/>
+					<ScoreDistribution value="6" recordCount="0"/>
+					<ScoreDistribution value="7" recordCount="0"/>
+				</Node>
+				<Node score="1" recordCount="15">
+					<True/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="10"/>
+					<ScoreDistribution value="2" recordCount="5"/>
+					<ScoreDistribution value="3" recordCount="0"/>
+					<ScoreDistribution value="4" recordCount="0"/>
 					<ScoreDistribution value="5" recordCount="0"/>
 					<ScoreDistribution value="6" recordCount="0"/>
 					<ScoreDistribution value="7" recordCount="0"/>
 				</Node>
 			</Node>
 			<Node>
-				<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="0.01145000010728836"/>
+				<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="2.8867499828338623"/>
 				<Node>
-					<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.950549989938736"/>
-					<Node score="3" recordCount="20">
-						<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.7752000093460083"/>
+					<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="0.2848999947309494"/>
+					<Node>
+						<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="0.12929999828338623"/>
+						<Node score="5" recordCount="13">
+							<SimplePredicate field="double(heading)" operator="lessOrEqual" value="115.53689765930176"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="13"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node>
+							<SimplePredicate field="double(3_xVelocity)" operator="lessOrEqual" value="-9.325300216674805"/>
+							<Node score="7" recordCount="9">
+								<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-0.0017000000370899215"/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="3"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="6"/>
+							</Node>
+							<Node score="5" recordCount="7">
+								<True/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="7"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="7" recordCount="125">
+							<SimplePredicate field="double(xAcceleration)" operator="lessOrEqual" value="-0.02930000051856041"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="14"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="111"/>
+						</Node>
+						<Node score="7" recordCount="882">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="882"/>
+						</Node>
+					</Node>
+					<Node score="7" recordCount="3">
+						<SimplePredicate field="double(2_xVelocity)" operator="lessOrEqual" value="-9.036849975585938"/>
 						<ScoreDistribution value="0" recordCount="0"/>
 						<ScoreDistribution value="1" recordCount="0"/>
 						<ScoreDistribution value="2" recordCount="0"/>
-						<ScoreDistribution value="3" recordCount="20"/>
+						<ScoreDistribution value="3" recordCount="0"/>
 						<ScoreDistribution value="4" recordCount="0"/>
 						<ScoreDistribution value="5" recordCount="0"/>
 						<ScoreDistribution value="6" recordCount="0"/>
-						<ScoreDistribution value="7" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="3"/>
 					</Node>
-					<Node score="3" recordCount="17">
-						<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="-0.48965001106262207"/>
-						<ScoreDistribution value="0" recordCount="3"/>
+					<Node score="5" recordCount="93">
+						<SimplePredicate field="double(heading)" operator="lessOrEqual" value="240.73485565185547"/>
+						<ScoreDistribution value="0" recordCount="0"/>
 						<ScoreDistribution value="1" recordCount="0"/>
 						<ScoreDistribution value="2" recordCount="0"/>
-						<ScoreDistribution value="3" recordCount="14"/>
+						<ScoreDistribution value="3" recordCount="0"/>
 						<ScoreDistribution value="4" recordCount="0"/>
-						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="93"/>
 						<ScoreDistribution value="6" recordCount="0"/>
 						<ScoreDistribution value="7" recordCount="0"/>
 					</Node>
-					<Node score="1" recordCount="31">
+					<Node score="7" recordCount="1">
 						<True/>
-						<ScoreDistribution value="0" recordCount="13"/>
-						<ScoreDistribution value="1" recordCount="14"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
 						<ScoreDistribution value="2" recordCount="0"/>
-						<ScoreDistribution value="3" recordCount="4"/>
+						<ScoreDistribution value="3" recordCount="0"/>
 						<ScoreDistribution value="4" recordCount="0"/>
 						<ScoreDistribution value="5" recordCount="0"/>
 						<ScoreDistribution value="6" recordCount="0"/>
-						<ScoreDistribution value="7" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="1"/>
 					</Node>
 				</Node>
 				<Node>
-					<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-0.30025000870227814"/>
-					<Node score="1" recordCount="69">
-						<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="1.4833499789237976"/>
+					<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-0.11955000087618828"/>
+					<Node>
+						<SimplePredicate field="double(xCenter)" operator="lessOrEqual" value="91.10834884643555"/>
+						<Node>
+							<SimplePredicate field="double(1_distance)" operator="lessOrEqual" value="8.531650066375732"/>
+							<Node score="5" recordCount="4">
+								<SimplePredicate field="double(2_yCenter)" operator="lessOrEqual" value="-47.54800033569336"/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="0"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="4"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+							<Node score="2" recordCount="8">
+								<True/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="8"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="2" recordCount="3">
+							<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="0.3208000063896179"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="3"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="6" recordCount="208">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="208"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node>
+						<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="-0.2281000018119812"/>
+						<Node score="6" recordCount="8">
+							<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="-0.022950000129640102"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="8"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="17">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="17"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="5" recordCount="11">
+						<SimplePredicate field="double(xVelocity)" operator="lessOrEqual" value="-0.050000011920928955"/>
 						<ScoreDistribution value="0" recordCount="0"/>
-						<ScoreDistribution value="1" recordCount="69"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="11"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="1" recordCount="17">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="17"/>
 						<ScoreDistribution value="2" recordCount="0"/>
 						<ScoreDistribution value="3" recordCount="0"/>
 						<ScoreDistribution value="4" recordCount="0"/>
@@ -190,35 +975,435 @@
 						<ScoreDistribution value="6" recordCount="0"/>
 						<ScoreDistribution value="7" recordCount="0"/>
 					</Node>
-					<Node score="2" recordCount="1">
+				</Node>
+				<Node>
+					<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="0.13004999607801437"/>
+					<Node>
+						<SimplePredicate field="double(xCenter)" operator="lessOrEqual" value="90.45819854736328"/>
+						<Node score="2" recordCount="20">
+							<SimplePredicate field="double(xVelocity)" operator="lessOrEqual" value="-1.9226000308990479"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="18"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="2"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="5" recordCount="369">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="26"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="343"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="2" recordCount="48">
+						<SimplePredicate field="double(1_yAcceleration)" operator="lessOrEqual" value="-0.36570000648498535"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="1"/>
+						<ScoreDistribution value="2" recordCount="41"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="1"/>
+						<ScoreDistribution value="6" recordCount="4"/>
+						<ScoreDistribution value="7" recordCount="1"/>
+					</Node>
+					<Node score="5" recordCount="62">
 						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="4"/>
+						<ScoreDistribution value="3" recordCount="3"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="47"/>
+						<ScoreDistribution value="6" recordCount="8"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node>
+					<SimplePredicate field="double(length)" operator="lessOrEqual" value="12.72569990158081"/>
+					<Node score="2" recordCount="31">
+						<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="0.4619999825954437"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="31"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="5" recordCount="4">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="4"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node score="3" recordCount="64">
+					<SimplePredicate field="double(yAcceleration)" operator="lessOrEqual" value="0.726500004529953"/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="0"/>
+					<ScoreDistribution value="3" recordCount="61"/>
+					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="5" recordCount="3"/>
+					<ScoreDistribution value="6" recordCount="0"/>
+					<ScoreDistribution value="7" recordCount="0"/>
+				</Node>
+				<Node score="5" recordCount="36">
+					<True/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="0"/>
+					<ScoreDistribution value="3" recordCount="5"/>
+					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="5" recordCount="31"/>
+					<ScoreDistribution value="6" recordCount="0"/>
+					<ScoreDistribution value="7" recordCount="0"/>
+				</Node>
+			</Node>
+			<Node>
+				<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="0.4032000005245209"/>
+				<Node>
+					<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-0.6901499927043915"/>
+					<Node>
+						<SimplePredicate field="double(1_yAcceleration)" operator="lessOrEqual" value="4.999999873689376E-5"/>
+						<Node>
+							<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="-1.053849995136261"/>
+							<Node score="6" recordCount="175">
+								<SimplePredicate field="double(3_yAcceleration)" operator="lessOrEqual" value="0.32170000672340393"/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="58"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="117"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+							<Node score="2" recordCount="41">
+								<True/>
+								<ScoreDistribution value="0" recordCount="0"/>
+								<ScoreDistribution value="1" recordCount="0"/>
+								<ScoreDistribution value="2" recordCount="41"/>
+								<ScoreDistribution value="3" recordCount="0"/>
+								<ScoreDistribution value="4" recordCount="0"/>
+								<ScoreDistribution value="5" recordCount="0"/>
+								<ScoreDistribution value="6" recordCount="0"/>
+								<ScoreDistribution value="7" recordCount="0"/>
+							</Node>
+						</Node>
+						<Node score="2" recordCount="143">
+							<SimplePredicate field="double(xAcceleration)" operator="lessOrEqual" value="0.7661999762058258"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="1"/>
+							<ScoreDistribution value="2" recordCount="141"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="1"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="6" recordCount="3">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="0"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="3"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="2" recordCount="7">
+						<SimplePredicate field="double(2_distance)" operator="lessOrEqual" value="13.842294692993164"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="7"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="6" recordCount="118">
+						<SimplePredicate field="double(yVelocity)" operator="lessOrEqual" value="3.372599959373474"/>
 						<ScoreDistribution value="0" recordCount="0"/>
 						<ScoreDistribution value="1" recordCount="0"/>
 						<ScoreDistribution value="2" recordCount="1"/>
 						<ScoreDistribution value="3" recordCount="0"/>
 						<ScoreDistribution value="4" recordCount="0"/>
 						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="117"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="2" recordCount="2">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="2"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
 						<ScoreDistribution value="6" recordCount="0"/>
 						<ScoreDistribution value="7" recordCount="0"/>
 					</Node>
 				</Node>
-				<Node score="0" recordCount="17">
-					<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="0.0030999999726191163"/>
-					<ScoreDistribution value="0" recordCount="14"/>
-					<ScoreDistribution value="1" recordCount="3"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="0"/>
+				<Node>
+					<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="0.12964999675750732"/>
+					<Node>
+						<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-0.14989999681711197"/>
+						<Node score="2" recordCount="243">
+							<SimplePredicate field="double(3_distance)" operator="lessOrEqual" value="25.73795509338379"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="5"/>
+							<ScoreDistribution value="2" recordCount="238"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="142">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="29"/>
+							<ScoreDistribution value="2" recordCount="113"/>
+							<ScoreDistribution value="3" recordCount="0"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="5" recordCount="8">
+						<SimplePredicate field="double(xCenter)" operator="lessOrEqual" value="51.75120162963867"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="8"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="2" recordCount="1325">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="1291"/>
+						<ScoreDistribution value="3" recordCount="30"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="4"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node>
+					<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="0.11634999886155128"/>
+					<Node score="2" recordCount="219">
+						<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="0.3166999965906143"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="1"/>
+						<ScoreDistribution value="2" recordCount="213"/>
+						<ScoreDistribution value="3" recordCount="5"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="5" recordCount="19">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="4"/>
+						<ScoreDistribution value="2" recordCount="4"/>
+						<ScoreDistribution value="3" recordCount="1"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="8"/>
+						<ScoreDistribution value="6" recordCount="2"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node score="2" recordCount="273">
+					<SimplePredicate field="double(length)" operator="lessOrEqual" value="18.60354995727539"/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="197"/>
+					<ScoreDistribution value="3" recordCount="70"/>
+					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="5" recordCount="6"/>
+					<ScoreDistribution value="6" recordCount="0"/>
+					<ScoreDistribution value="7" recordCount="0"/>
+				</Node>
+				<Node score="3" recordCount="215">
+					<True/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="58"/>
+					<ScoreDistribution value="3" recordCount="151"/>
+					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="5" recordCount="0"/>
+					<ScoreDistribution value="6" recordCount="6"/>
+					<ScoreDistribution value="7" recordCount="0"/>
+				</Node>
+			</Node>
+			<Node>
+				<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="0.3039499968290329"/>
+				<Node>
+					<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="7.919450044631958"/>
+					<Node>
+						<SimplePredicate field="double(yCenter)" operator="lessOrEqual" value="-22.956149101257324"/>
+						<Node score="3" recordCount="1335">
+							<SimplePredicate field="double(yCenter)" operator="lessOrEqual" value="-29.473999977111816"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="279"/>
+							<ScoreDistribution value="3" recordCount="982"/>
+							<ScoreDistribution value="4" recordCount="65"/>
+							<ScoreDistribution value="5" recordCount="9"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+						<Node score="2" recordCount="318">
+							<True/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="2" recordCount="199"/>
+							<ScoreDistribution value="3" recordCount="119"/>
+							<ScoreDistribution value="4" recordCount="0"/>
+							<ScoreDistribution value="5" recordCount="0"/>
+							<ScoreDistribution value="6" recordCount="0"/>
+							<ScoreDistribution value="7" recordCount="0"/>
+						</Node>
+					</Node>
+					<Node score="3" recordCount="191">
+						<SimplePredicate field="double(length)" operator="lessOrEqual" value="18.665849685668945"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="189"/>
+						<ScoreDistribution value="4" recordCount="2"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="3" recordCount="124">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="86"/>
+						<ScoreDistribution value="4" recordCount="38"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node>
+					<SimplePredicate field="double(1_yVelocity)" operator="lessOrEqual" value="0.6853500008583069"/>
+					<Node score="2" recordCount="47">
+						<SimplePredicate field="double(2_xCenter)" operator="lessOrEqual" value="87.02989959716797"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="38"/>
+						<ScoreDistribution value="3" recordCount="9"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="2" recordCount="144">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="144"/>
+						<ScoreDistribution value="3" recordCount="0"/>
+						<ScoreDistribution value="4" recordCount="0"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node score="2" recordCount="114">
+					<SimplePredicate field="double(yCenter)" operator="lessOrEqual" value="-62.47524833679199"/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="88"/>
+					<ScoreDistribution value="3" recordCount="26"/>
 					<ScoreDistribution value="4" recordCount="0"/>
 					<ScoreDistribution value="5" recordCount="0"/>
 					<ScoreDistribution value="6" recordCount="0"/>
 					<ScoreDistribution value="7" recordCount="0"/>
 				</Node>
-				<Node score="1" recordCount="61">
+				<Node score="3" recordCount="48">
 					<True/>
-					<ScoreDistribution value="0" recordCount="18"/>
-					<ScoreDistribution value="1" recordCount="42"/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="0"/>
+					<ScoreDistribution value="3" recordCount="48"/>
+					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="5" recordCount="0"/>
+					<ScoreDistribution value="6" recordCount="0"/>
+					<ScoreDistribution value="7" recordCount="0"/>
+				</Node>
+			</Node>
+			<Node>
+				<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="0.8833999931812286"/>
+				<Node>
+					<SimplePredicate field="double(lonVelocity)" operator="lessOrEqual" value="5.794100046157837"/>
+					<Node score="3" recordCount="404">
+						<SimplePredicate field="double(yCenter)" operator="lessOrEqual" value="-21.660099983215332"/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="4"/>
+						<ScoreDistribution value="3" recordCount="338"/>
+						<ScoreDistribution value="4" recordCount="62"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+					<Node score="4" recordCount="59">
+						<True/>
+						<ScoreDistribution value="0" recordCount="0"/>
+						<ScoreDistribution value="1" recordCount="0"/>
+						<ScoreDistribution value="2" recordCount="0"/>
+						<ScoreDistribution value="3" recordCount="11"/>
+						<ScoreDistribution value="4" recordCount="48"/>
+						<ScoreDistribution value="5" recordCount="0"/>
+						<ScoreDistribution value="6" recordCount="0"/>
+						<ScoreDistribution value="7" recordCount="0"/>
+					</Node>
+				</Node>
+				<Node score="2" recordCount="110">
+					<SimplePredicate field="double(3_xCenter)" operator="lessOrEqual" value="117.47109985351562"/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="57"/>
+					<ScoreDistribution value="3" recordCount="46"/>
+					<ScoreDistribution value="4" recordCount="7"/>
+					<ScoreDistribution value="5" recordCount="0"/>
+					<ScoreDistribution value="6" recordCount="0"/>
+					<ScoreDistribution value="7" recordCount="0"/>
+				</Node>
+				<Node score="3" recordCount="40">
+					<True/>
+					<ScoreDistribution value="0" recordCount="0"/>
+					<ScoreDistribution value="1" recordCount="0"/>
 					<ScoreDistribution value="2" recordCount="1"/>
-					<ScoreDistribution value="3" recordCount="0"/>
+					<ScoreDistribution value="3" recordCount="39"/>
 					<ScoreDistribution value="4" recordCount="0"/>
 					<ScoreDistribution value="5" recordCount="0"/>
 					<ScoreDistribution value="6" recordCount="0"/>
@@ -226,84 +1411,48 @@
 				</Node>
 			</Node>
 			<Node>
-				<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.044600009918213"/>
-				<Node score="0" recordCount="13">
-					<SimplePredicate field="double(xCenter)" operator="lessOrEqual" value="63.395551681518555"/>
-					<ScoreDistribution value="0" recordCount="13"/>
+				<SimplePredicate field="double(xCenter)" operator="lessOrEqual" value="99.65715026855469"/>
+				<Node score="3" recordCount="192">
+					<SimplePredicate field="double(1_yCenter)" operator="lessOrEqual" value="-60.2370491027832"/>
+					<ScoreDistribution value="0" recordCount="0"/>
 					<ScoreDistribution value="1" recordCount="0"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="0"/>
-					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="47"/>
+					<ScoreDistribution value="3" recordCount="123"/>
+					<ScoreDistribution value="4" recordCount="22"/>
 					<ScoreDistribution value="5" recordCount="0"/>
 					<ScoreDistribution value="6" recordCount="0"/>
 					<ScoreDistribution value="7" recordCount="0"/>
 				</Node>
-				<Node score="3" recordCount="23">
-					<SimplePredicate field="double(latAcceleration)" operator="lessOrEqual" value="-1.6410500407218933"/>
-					<ScoreDistribution value="0" recordCount="3"/>
-					<ScoreDistribution value="1" recordCount="0"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="20"/>
-					<ScoreDistribution value="4" recordCount="0"/>
-					<ScoreDistribution value="5" recordCount="0"/>
-					<ScoreDistribution value="6" recordCount="0"/>
-					<ScoreDistribution value="7" recordCount="0"/>
-				</Node>
-				<Node score="0" recordCount="24">
+				<Node score="4" recordCount="420">
 					<True/>
-					<ScoreDistribution value="0" recordCount="15"/>
+					<ScoreDistribution value="0" recordCount="0"/>
 					<ScoreDistribution value="1" recordCount="0"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="9"/>
-					<ScoreDistribution value="4" recordCount="0"/>
+					<ScoreDistribution value="2" recordCount="70"/>
+					<ScoreDistribution value="3" recordCount="116"/>
+					<ScoreDistribution value="4" recordCount="234"/>
 					<ScoreDistribution value="5" recordCount="0"/>
 					<ScoreDistribution value="6" recordCount="0"/>
 					<ScoreDistribution value="7" recordCount="0"/>
 				</Node>
 			</Node>
-			<Node>
-				<SimplePredicate field="double(lonAcceleration)" operator="lessOrEqual" value="0.32225000858306885"/>
-				<Node score="0" recordCount="26">
-					<SimplePredicate field="double(1_yCenter)" operator="lessOrEqual" value="-69.26284790039062"/>
-					<ScoreDistribution value="0" recordCount="26"/>
-					<ScoreDistribution value="1" recordCount="0"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="0"/>
-					<ScoreDistribution value="4" recordCount="0"/>
-					<ScoreDistribution value="5" recordCount="0"/>
-					<ScoreDistribution value="6" recordCount="0"/>
-					<ScoreDistribution value="7" recordCount="0"/>
-				</Node>
-				<Node score="0" recordCount="69">
-					<True/>
-					<ScoreDistribution value="0" recordCount="53"/>
-					<ScoreDistribution value="1" recordCount="16"/>
-					<ScoreDistribution value="2" recordCount="0"/>
-					<ScoreDistribution value="3" recordCount="0"/>
-					<ScoreDistribution value="4" recordCount="0"/>
-					<ScoreDistribution value="5" recordCount="0"/>
-					<ScoreDistribution value="6" recordCount="0"/>
-					<ScoreDistribution value="7" recordCount="0"/>
-				</Node>
-			</Node>
-			<Node score="0" recordCount="155">
-				<SimplePredicate field="double(latVelocity)" operator="lessOrEqual" value="0.64410001039505"/>
-				<ScoreDistribution value="0" recordCount="153"/>
-				<ScoreDistribution value="1" recordCount="2"/>
+			<Node score="3" recordCount="43">
+				<SimplePredicate field="double(yCenter)" operator="lessOrEqual" value="-87.50215148925781"/>
+				<ScoreDistribution value="0" recordCount="0"/>
+				<ScoreDistribution value="1" recordCount="0"/>
 				<ScoreDistribution value="2" recordCount="0"/>
-				<ScoreDistribution value="3" recordCount="0"/>
-				<ScoreDistribution value="4" recordCount="0"/>
+				<ScoreDistribution value="3" recordCount="27"/>
+				<ScoreDistribution value="4" recordCount="16"/>
 				<ScoreDistribution value="5" recordCount="0"/>
 				<ScoreDistribution value="6" recordCount="0"/>
 				<ScoreDistribution value="7" recordCount="0"/>
 			</Node>
-			<Node score="2" recordCount="2">
+			<Node score="4" recordCount="325">
 				<True/>
 				<ScoreDistribution value="0" recordCount="0"/>
 				<ScoreDistribution value="1" recordCount="0"/>
-				<ScoreDistribution value="2" recordCount="2"/>
-				<ScoreDistribution value="3" recordCount="0"/>
-				<ScoreDistribution value="4" recordCount="0"/>
+				<ScoreDistribution value="2" recordCount="0"/>
+				<ScoreDistribution value="3" recordCount="13"/>
+				<ScoreDistribution value="4" recordCount="312"/>
 				<ScoreDistribution value="5" recordCount="0"/>
 				<ScoreDistribution value="6" recordCount="0"/>
 				<ScoreDistribution value="7" recordCount="0"/>

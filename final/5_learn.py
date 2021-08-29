@@ -65,7 +65,7 @@ def run_once(dataset, filepath):
 
     tree.export_graphviz(classifier, out_file=f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz.dot', filled=True, rounded=True, feature_names=x.columns, class_names=prediction_names)
     graph = graphviz.Source.from_file(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz.dot')
-    graph.render(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz.png', format='png')
+    graph.render(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz', format='png')
 
     pipeline = PMMLPipeline([("classifier", classifier)])
     pipeline.fit(x_train, y_train)
