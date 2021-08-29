@@ -15,8 +15,8 @@ def run_once(dataset, file_num):
         return
     tracks = pd.read_csv(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks.csv")
     tracks = tracks[[
-        'recordingId', 'frame', 'trackId',
-        'trackLifetime', 'xCenter', 'yCenter', 'heading', 'width', 'length', 'xVelocity', 'yVelocity',
+        'recordingId', 'frame', 'trackId', 'trackLifetime',
+        'xCenter', 'yCenter', 'heading', 'width', 'length', 'xVelocity', 'yVelocity',
         'xAcceleration', 'yAcceleration', 'lonVelocity', 'latVelocity', 'lonAcceleration', 'latAcceleration'
     ]]
     tracks_meta = pd.read_csv(

@@ -8,9 +8,10 @@ import settings
 def get_prediction(row):
     FIRST_DEGREE_TURN = 5
     SECOND_DEGREE_TURN = 10
+    VELOCITY_STILL_LIMIT = 0.3
     heading_change = (row['end_heading']-row['heading'] + 180) % 360 - 180
 
-    if row['lonVelocity'] < 0.3 and row['end_lonVelocity'] < 0.3:
+    if row['lonVelocity'] < VELOCITY_STILL_LIMIT and row['end_lonVelocity'] < VELOCITY_STILL_LIMIT:
         return 'still'
     elif heading_change >= SECOND_DEGREE_TURN:
         return 'turn-left'
@@ -37,12 +38,11 @@ def run_once(dataset, file_num):
     df = pd.read_csv(f"{settings.INITIAL_DATASET_FOLDER}/{dataset['dataset_name']}/data/{num_csv}_tracks.csv")
     all_datasets = []
     for (track_id, recording_id), group in df.groupby(['trackId', 'recordingId']):
-        temp_columns = ['heading', 'xCenter', 'yCenter', 'lonVelocity']
+        temp_columns = ['heading', 'lonVelocity']
         for column in temp_columns:
             group[f'end_{column}'] = group[column].shift(-settings.PREDICTION_FORWARD_FRAMES,
                                                          fill_value=group.iloc[-1][column])
         group['prediction'] = group.apply(get_prediction, axis=1)
-        group = group.drop(columns=[f'end_{item}' for item in temp_columns])
         all_datasets.append(group[['frame', 'trackId', 'prediction']])
     prediction_df = pd.concat(all_datasets, axis=0, ignore_index=True)
     Path(f"{settings.TRACKS_PREDICTION_FOLDER}/{dataset['dataset_name']}/predictions/").mkdir(parents=True, exist_ok=True)
@@ -67,6 +67,7 @@ def run_all_multiprocessing():
     for p in all_processes:
         p.join()
     print('All Done')
+
 
 if __name__ == '__main__':
     run_all_multiprocessing()

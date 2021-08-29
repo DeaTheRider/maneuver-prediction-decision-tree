@@ -4,9 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix, classification_report
-from sklearn import tree
 import json
-import graphviz
 from sklearn2pmml.pipeline import PMMLPipeline
 from sklearn2pmml import sklearn2pmml
 
@@ -40,11 +38,10 @@ def run_once(dataset, filepath):
     classifier = DecisionTreeClassifier(**params, random_state=42)
     classifier.fit(x_train, y_train)
 
-    y_train_pred =classifier.predict(x_train)
+    y_train_pred = classifier.predict(x_train)
     accuracy = metrics.accuracy_score(y_train, y_train_pred)
     print("Accuracy: {:.2f}".format(accuracy))
     cm = confusion_matrix(y_train, y_train_pred)
-
     print('Confusion Matrix: \n', cm)
     with open(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/train_cm.txt', 'w') as f:
         f.write(str(cm))
@@ -65,7 +62,7 @@ def run_once(dataset, filepath):
     with open(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/test_cr.txt', 'w') as f:
         f.write(str(cr))
 
-    tree.export_graphviz(classifier, out_file=f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz.dot', filled=True, rounded=True, feature_names=x.columns, class_names=prediction_names)
+    # tree.export_graphviz(classifier, out_file=f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz.dot', filled=True, rounded=True, feature_names=x.columns, class_names=prediction_names)
     # graph = graphviz.Source.from_file(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz.dot')
     # graph.render(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/graphviz', format='png')
 
