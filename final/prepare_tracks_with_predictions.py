@@ -68,5 +68,5 @@ def run_all_multiprocessing():
         p.join()
     print('All Done')
 
-
-run_all_multiprocessing()
+if __name__ == '__main__':
+    run_all_multiprocessing()

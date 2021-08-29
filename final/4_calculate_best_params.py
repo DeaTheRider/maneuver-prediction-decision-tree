@@ -43,4 +43,5 @@ def run_all():
             run_once(dataset, filepath)
 
 
-run_all()
+if __name__ == '__main__':
+    run_all()
