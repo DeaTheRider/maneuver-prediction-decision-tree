@@ -23,7 +23,7 @@ def run_once(dataset, filepath):
     print(f'Starting {dataset["dataset_name"]} {class_name}')
     Path(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/').mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(filepath)
-    df = df.drop(columns=['recordingId', 'frame', 'trackId', 'class', 'trackLifetime'])
+    df = df.drop(columns=['recordingId', 'frame', 'trackId', 'class'])
     print(df['prediction'].value_counts())
     with open(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/value_counts.txt', 'w') as f:
         f.write(str(df['prediction'].value_counts()))

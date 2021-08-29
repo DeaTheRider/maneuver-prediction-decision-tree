@@ -21,7 +21,7 @@ def run_once(dataset, filepath):
         print(f'Skipping {dataset["dataset_name"]} {class_name}')
         return
     df = pd.read_csv(filepath)
-    df = df.drop(columns=['recordingId', 'frame', 'trackId', 'class', 'trackLifetime'])
+    df = df.drop(columns=['recordingId', 'frame', 'trackId', 'class'])
     print(df['prediction'].value_counts())
     x = df.drop('prediction', axis=1)
     y = df['prediction']
