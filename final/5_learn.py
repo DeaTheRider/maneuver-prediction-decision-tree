@@ -23,9 +23,6 @@ SEARCH_PARAMS = {
 def run_once(dataset, filepath):
     class_name = filepath.name[:-4]
     print(f'Starting {dataset["dataset_name"]} {class_name}')
-    # if Path(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/.json').is_file():
-    #     print(f'Skipping {dataset["dataset_name"]} {class_name}')
-    #     return
     Path(f'{settings.LEARNED_DATA_FOLDER}/{dataset["dataset_name"]}/{class_name}/').mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(filepath)
     df = df.drop(columns=['recordingId', 'frame', 'trackId', 'class', 'trackLifetime'])
