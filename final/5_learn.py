@@ -69,6 +69,7 @@ def run_once(dataset, filepath):
 
     pipeline = PMMLPipeline([("classifier", classifier)])
     pipeline.fit(x_train, y_train)
+    Path(f'{settings.TREES_FOLDER}/{dataset["dataset_name"]}/').mkdir(parents=True, exist_ok=True)
     sklearn2pmml(pipeline, f'{settings.TREES_FOLDER}/{dataset["dataset_name"]}/{class_name}.pmml', with_repr=True)
     print(f'Finished {dataset["dataset_name"]} {class_name}')
 
