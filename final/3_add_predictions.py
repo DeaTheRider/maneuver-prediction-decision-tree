@@ -15,7 +15,7 @@ def run_once(dataset, filepath):
     df = pd.read_csv(filepath)
     all_datasets = []
     for (track_id, recording_id), group in df.groupby(['trackId', 'recordingId']):
-        temp_columns = ['heading', 'xCenter', 'yCenter', 'lonVelocity', 'trackLifetime']
+        temp_columns = ['heading', 'xCenter', 'yCenter', 'lonVelocity']
         for column in temp_columns:
             group[f'end_{column}'] = group[column].shift(-settings.PREDICTION_FORWARD_FRAMES,
                                                          fill_value=group.iloc[-1][column])
