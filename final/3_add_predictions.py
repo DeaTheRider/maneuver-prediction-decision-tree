@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 from multiprocessing import Process
+import os
 
 import settings
 from prepare_tracks_with_predictions import get_prediction
@@ -29,6 +30,32 @@ def run_once(dataset, filepath):
     print(f'Finished {dataset["dataset_name"]} {class_name}')
 
 
+def exclude_round_car_stationary():
+    still_limit_percentage = 0.9
+    dataset_name = 'inD-dataset-v1.0'
+    class_name = 'car'
+    if Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}_unfiltered.csv').is_file():
+        print(f'Skipping, already filtered')
+        return
+    os.rename(
+        rf'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}.csv',
+        rf'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}_unfiltered.csv'
+    )
+    df = pd.read_csv(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}_unfiltered.csv')
+    print('before:\n', df['prediction'].value_counts())
+    all_datasets = []
+    for (track_id, recording_id), group in df.groupby(['trackId', 'recordingId']):
+        value_count = group['prediction'].value_counts(normalize=True)
+        still_pecentage = value_count.get('still', 0)
+        if still_pecentage > still_limit_percentage:
+            print(group['prediction'].value_counts())
+        else:
+            all_datasets.append(group)
+    df = pd.concat(all_datasets, axis=0, ignore_index=True)
+    df.to_csv(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}.csv', index=False)
+    print('after:', df['prediction'].value_counts())
+
+
 def run_all():
     for name, dataset in settings.DATASETS.items():
         for filepath in Path(rf'{settings.BY_CLASS_DATASET_FOLDER}/{dataset["dataset_name"]}/').glob('*.csv'):
@@ -50,3 +77,4 @@ def run_all_multiprocessing():
 
 if __name__ == '__main__':
     run_all_multiprocessing()
+    exclude_round_car_stationary()
