@@ -30,7 +30,7 @@ def run_once(dataset, filepath):
     print(f'Finished {dataset["dataset_name"]} {class_name}')
 
 
-def exclude_round_car_stationary():
+def exclude_ind_car_stationary():
     still_limit_percentage = 0.9
     dataset_name = 'inD-dataset-v1.0'
     class_name = 'car'
@@ -78,4 +78,4 @@ def run_all_multiprocessing():
 
 if __name__ == '__main__':
     run_all_multiprocessing()
-    exclude_round_car_stationary()
+    exclude_ind_car_stationary()
