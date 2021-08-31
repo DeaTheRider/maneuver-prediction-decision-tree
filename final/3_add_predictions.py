@@ -34,14 +34,15 @@ def exclude_round_car_stationary():
     still_limit_percentage = 0.9
     dataset_name = 'inD-dataset-v1.0'
     class_name = 'car'
-    if Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}_unfiltered.csv').is_file():
+    if Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/unfiltered/{class_name}.csv').is_file():
         print(f'Skipping, already filtered')
         return
+    Path(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/unfiltered/').mkdir(parents=True, exist_ok=True)
     os.rename(
         rf'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}.csv',
-        rf'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}_unfiltered.csv'
+        rf'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/unfiltered/{class_name}.csv'
     )
-    df = pd.read_csv(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/{class_name}_unfiltered.csv')
+    df = pd.read_csv(f'{settings.LABELED_DATASET_FOLDER}/{dataset_name}/unfiltered/{class_name}.csv')
     print('before:\n', df['prediction'].value_counts())
     all_datasets = []
     for (track_id, recording_id), group in df.groupby(['trackId', 'recordingId']):
